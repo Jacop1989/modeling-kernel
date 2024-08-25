@@ -86,3 +86,71 @@ Point3D rotatePointAroundZ(Point3D p, float angle) {
     result.z = p.z;
     return result;
 }
+
+// ฟังก์ชันสำหรับสร้างเมทริกซ์การย้ายตำแหน่ง
+Matrix4x4 createTranslationMatrix(float tx, float ty, float tz) {
+    Matrix4x4 matrix = {0};
+    matrix.m[0][0] = 1;
+    matrix.m[1][1] = 1;
+    matrix.m[2][2] = 1;
+    matrix.m[3][3] = 1;
+    matrix.m[0][3] = tx;
+    matrix.m[1][3] = ty;
+    matrix.m[2][3] = tz;
+    return matrix;
+}
+
+// ฟังก์ชันสำหรับสร้างเมทริกซ์การหมุนรอบแกน X
+Matrix4x4 createRotationMatrixX(float angle) {
+    Matrix4x4 matrix = {0};
+    matrix.m[0][0] = 1;
+    matrix.m[1][1] = cos(angle);
+    matrix.m[1][2] = -sin(angle);
+    matrix.m[2][1] = sin(angle);
+    matrix.m[2][2] = cos(angle);
+    matrix.m[3][3] = 1;
+    return matrix;
+}
+
+// ฟังก์ชันสำหรับสร้างเมทริกซ์การหมุนรอบแกน Y
+Matrix4x4 createRotationMatrixY(float angle) {
+    Matrix4x4 matrix = {0};
+    matrix.m[0][0] = cos(angle);
+    matrix.m[0][2] = sin(angle);
+    matrix.m[2][0] = -sin(angle);
+    matrix.m[2][2] = cos(angle);
+    matrix.m[1][1] = 1;
+    matrix.m[3][3] = 1;
+    return matrix;
+}
+
+// ฟังก์ชันสำหรับสร้างเมทริกซ์การหมุนรอบแกน Z
+Matrix4x4 createRotationMatrixZ(float angle) {
+    Matrix4x4 matrix = {0};
+    matrix.m[0][0] = cos(angle);
+    matrix.m[0][1] = -sin(angle);
+    matrix.m[1][0] = sin(angle);
+    matrix.m[1][1] = cos(angle);
+    matrix.m[2][2] = 1;
+    matrix.m[3][3] = 1;
+    return matrix;
+}
+
+// ฟังก์ชันสำหรับสร้างเมทริกซ์การปรับขนาด
+Matrix4x4 createScalingMatrix(float sx, float sy, float sz) {
+    Matrix4x4 matrix = {0};
+    matrix.m[0][0] = sx;
+    matrix.m[1][1] = sy;
+    matrix.m[2][2] = sz;
+    matrix.m[3][3] = 1;
+    return matrix;
+}
+
+// ฟังก์ชันสำหรับคูณเมทริกซ์กับจุด 3D
+Point3D applyTransformation(Point3D p, Matrix4x4 matrix) {
+    Point3D result;
+    result.x = p.x * matrix.m[0][0] + p.y * matrix.m[0][1] + p.z * matrix.m[0][2] + matrix.m[0][3];
+    result.y = p.x * matrix.m[1][0] + p.y * matrix.m[1][1] + p.z * matrix.m[1][2] + matrix.m[1][3];
+    result.z = p.x * matrix.m[2][0] + p.y * matrix.m[2][1] + p.z * matrix.m[2][2] + matrix.m[2][3];
+    return result;
+}

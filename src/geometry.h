@@ -14,6 +14,10 @@ typedef struct {
     float d;
 } Plane;
 
+typedef struct {
+    float m[4][4];
+} Matrix4x4;
+
 // ฟังก์ชันคำนวณเวกเตอร์ระหว่างสองจุด
 Vector3D subtractPoints(Point3D p1, Point3D p2);
 
@@ -39,5 +43,19 @@ Point3D scalePoint(Point3D p, float scaleFactor);
 Point3D rotatePointAroundX(Point3D p, float angle);
 Point3D rotatePointAroundY(Point3D p, float angle);
 Point3D rotatePointAroundZ(Point3D p, float angle);
+
+// ฟังก์ชันสำหรับสร้างเมทริกซ์การย้ายตำแหน่ง
+Matrix4x4 createTranslationMatrix(float tx, float ty, float tz);
+
+// ฟังก์ชันสำหรับสร้างเมทริกซ์การหมุนรอบแกน X, Y, Z
+Matrix4x4 createRotationMatrixX(float angle);
+Matrix4x4 createRotationMatrixY(float angle);
+Matrix4x4 createRotationMatrixZ(float angle);
+
+// ฟังก์ชันสำหรับสร้างเมทริกซ์การปรับขนาด
+Matrix4x4 createScalingMatrix(float sx, float sy, float sz);
+
+// ฟังก์ชันสำหรับคูณเมทริกซ์กับจุด 3D
+Point3D applyTransformation(Point3D p, Matrix4x4 matrix);
 
 #endif
