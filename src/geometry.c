@@ -22,3 +22,21 @@ Vector3D crossProduct(Vector3D v1, Vector3D v2) {
 float dotProduct(Vector3D v1, Vector3D v2) {
     return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
+
+// ฟังก์ชันคำนวณมุมระหว่างสองเวกเตอร์
+float angleBetweenVectors(Vector3D v1, Vector3D v2) {
+    float dot = dotProduct(v1, v2);
+    float magnitude_v1 = sqrt(dotProduct(v1, v1));
+    float magnitude_v2 = sqrt(dotProduct(v2, v2));
+    return acos(dot / (magnitude_v1 * magnitude_v2));
+}
+
+// ฟังก์ชันสร้างพื้นผิวจากจุดสามจุด
+Plane createPlane(Point3D p1, Point3D p2, Point3D p3) {
+    Plane plane;
+    Vector3D v1 = subtractPoints(p1, p2);
+    Vector3D v2 = subtractPoints(p2, p3);
+    plane.normal = crossProduct(v1, v2);
+    plane.d = - (plane.normal.x * p1.x + plane.normal.y * p1.y + plane.normal.z * p1.z);
+    return plane;
+}
