@@ -1,4 +1,5 @@
 #include "geometry.h"
+#include <math.h>
 
 // ฟังก์ชันคำนวณเวกเตอร์ระหว่างสองจุด
 Vector3D subtractPoints(Point3D p1, Point3D p2) {
@@ -39,4 +40,49 @@ Plane createPlane(Point3D p1, Point3D p2, Point3D p3) {
     plane.normal = crossProduct(v1, v2);
     plane.d = - (plane.normal.x * p1.x + plane.normal.y * p1.y + plane.normal.z * p1.z);
     return plane;
+}
+
+// ฟังก์ชันการย้ายตำแหน่งจุด
+Point3D translatePoint(Point3D p, Vector3D translation) {
+    Point3D result;
+    result.x = p.x + translation.x;
+    result.y = p.y + translation.y;
+    result.z = p.z + translation.z;
+    return result;
+}
+
+// ฟังก์ชันการปรับขนาดจุด
+Point3D scalePoint(Point3D p, float scaleFactor) {
+    Point3D result;
+    result.x = p.x * scaleFactor;
+    result.y = p.y * scaleFactor;
+    result.z = p.z * scaleFactor;
+    return result;
+}
+
+// ฟังก์ชันการหมุนจุดรอบแกน X
+Point3D rotatePointAroundX(Point3D p, float angle) {
+    Point3D result;
+    result.x = p.x;
+    result.y = p.y * cos(angle) - p.z * sin(angle);
+    result.z = p.y * sin(angle) + p.z * cos(angle);
+    return result;
+}
+
+// ฟังก์ชันการหมุนจุดรอบแกน Y
+Point3D rotatePointAroundY(Point3D p, float angle) {
+    Point3D result;
+    result.x = p.x * cos(angle) + p.z * sin(angle);
+    result.y = p.y;
+    result.z = -p.x * sin(angle) + p.z * cos(angle);
+    return result;
+}
+
+// ฟังก์ชันการหมุนจุดรอบแกน Z
+Point3D rotatePointAroundZ(Point3D p, float angle) {
+    Point3D result;
+    result.x = p.x * cos(angle) - p.y * sin(angle);
+    result.y = p.x * sin(angle) + p.y * cos(angle);
+    result.z = p.z;
+    return result;
 }
